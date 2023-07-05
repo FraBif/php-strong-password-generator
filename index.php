@@ -14,5 +14,19 @@
         <input type="number" name="passwordLength" id="passwordLength">
         <button type="submit">Genera La Tua Password</button>
     </form>
+
+    <?php 
+        $passwordLength = $_GET['passwordLength'];
+        function generateRandomPassword($length) {
+            $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
+            $password = '';
+            $lettersLength = strlen($letters) - 1;
+            for ($i = 0; $i < $length; $i++) {
+                $password .= $letters[rand(0, $lettersLength)];
+              }
+            
+              return $password;
+            }
+    ?>
 </body>
 </html>
