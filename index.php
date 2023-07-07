@@ -16,17 +16,47 @@
     </form>
 
     <?php 
-        $passwordLength = $_GET['passwordLength'];
-        function generateRandomPassword($length) {
-            $letters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_=+';
-            $password = '';
-            $lettersLength = strlen($letters) - 1;
-            for ($i = 0; $i < $length; $i++) {
-                $password .= $letters[rand(0, $lettersLength)];
-              }
-            
-              return $password;
-            }
+        $passwordLength = null;
+
+if (!empty($_GET['typeNumber'])){
+    $passwordLength = checkData($_GET['typeNumber']);
+}
+
+function checkData ($data){
+    if (!is_numeric($data)){
+        return false;
+    }
+    return $data;
+}
+
+function generateRandomPassword ($length) {
+    $password = '';
+    $lowerCase = 'abcdefghijklmnopqrstuvwxyz';
+    $upperCase = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    $numbers =  '0123456789' ;
+    $specialChar = '!@#$%^&*()_+-={}[]|:;"<>,.?/';
+
+    $allChar = [ $lowerCase , $upperCase , $numbers , $specialChar ];
+
+
+    
+    foreach ($allChar as $char){
+        $password .= $char[array_rand(str_split($char))];
+    }
+
+    while (strlen($password) < $length){
+        $random = $allChar[array_rand($allChar)];
+        $password .= $random[array_rand(str_split($random))];
+    }
+
+    return $password;
+}
     ?>
+
+    <p>
+        <?php
+        echo $password
+        ?>
+    </p>
 </body>
 </html>
